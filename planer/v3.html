@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planiranje v3 · Delovni nalogi</title>
+<link rel="stylesheet" href="css/planer.css">
+<link rel="stylesheet" href="css/planer-v2.css">
+<link rel="stylesheet" href="css/planer-v3.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">DN</span>
+    <span class="brand-text">DELOVNI NALOGI</span>
+    <span class="ver-switch"><a href="index.html">v1</a><a href="v2.html">v2</a><a href="v3.html" class="on">v3</a></span>
+  </div>
+  <nav class="mainnav">
+    <a href="#" class="active">Planiranje</a>
+    <a href="#">Igle</a>
+    <a href="#">Klasifikacija</a>
+    <a href="#">Poročila</a>
+  </nav>
+  <div class="topbar-right">
+    <div class="clock"><span id="clock-time">--:--</span><span id="clock-shift">izmena</span></div>
+    <div class="user"><span class="user-role">PLANER</span><span class="user-name">J. Horvat</span></div>
+  </div>
+</header>
+
+<!-- kratek pas namesto velikega hero -->
+<section class="strip">
+  <div class="strip-title">
+    <div class="eyebrow">Planiranje delovnih nalogov</div>
+    <h1>RATIO → DN</h1>
+  </div>
+  <div class="strip-kpis">
+    <div class="skpi"><b id="k-week">--</b><span>teden</span></div>
+    <div class="skpi"><b id="k-cover">0 %</b><span>RATIO pokrit</span></div>
+    <div class="skpi"><b id="k-open">0</b><span>kosov odprto</span></div>
+    <div class="skpi"><b id="k-dn">0</b><span>DN v tednu</span></div>
+    <div class="skpi skpi-warn"><b id="k-wait">0</b><span>čaka na iglo</span></div>
+  </div>
+</section>
+
+<main>
+  <!-- ============ 01 RATIO + NOV DN ============ -->
+  <section class="block">
+    <div class="block-head">
+      <span class="block-idx">01</span>
+      <h2>RATIO in nov delovni nalog</h2>
+      <span class="block-hint">Izberi ident → količina → ustvari</span>
+    </div>
+
+    <div class="grid-v2">
+      <div class="panel panel-ratio">
+        <div class="panel-head">
+          <h3>RATIO · tedenska potreba</h3>
+          <div class="ratio-week">
+            <button class="icon-btn icon-btn-sm" id="ratio-prev" title="Prejšnji teden">‹</button>
+            <span id="ratio-week-label">Teden --</span>
+            <button class="icon-btn icon-btn-sm" id="ratio-next" title="Naslednji teden">›</button>
+          </div>
+        </div>
+        <div class="ratio-total" id="ratio-total"></div>
+        <table class="rt">
+          <thead><tr>
+            <th>Ident</th><th>Artikel</th>
+            <th class="num">Potreba</th><th class="num">Planirano</th><th class="num">Preostane</th>
+            <th class="rt-bar-h">Pokritost</th>
+          </tr></thead>
+          <tbody id="ratio-body"></tbody>
+        </table>
+      </div>
+
+      <div class="panel panel-gen" id="gen"></div>
+    </div>
+  </section>
+
+  <!-- ============ 02 DELOVNI NALOGI ============ -->
+  <section class="block">
+    <div class="block-head">
+      <span class="block-idx">02</span>
+      <h2>Delovni nalogi v tednu</h2>
+      <span class="block-hint" id="dn-hint"></span>
+    </div>
+
+    <div class="dn-bar">
+      <div class="seg seg-dark" id="dn-filter">
+        <button type="button" data-v="all" class="on">Vsi</button>
+        <button type="button" data-v="wait">Čaka na iglo</button>
+        <button type="button" data-v="ready">Igla dodeljena</button>
+      </div>
+      <input type="search" id="dn-search" placeholder="Išči DN, ident, artikel…">
+      <label class="dn-only"><input type="checkbox" id="dn-only-sel"> samo izbrani ident</label>
+    </div>
+
+    <table class="wt dn-table">
+      <thead><tr>
+        <th>DN</th><th>Ident</th><th>Artikel</th><th class="num">Količina</th><th>Trajanje</th>
+        <th>Igla</th><th>Prioriteta</th><th>Status</th><th>Ustvaril</th><th></th>
+      </tr></thead>
+      <tbody id="dn-body"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-word">DELOVNI NALOGI</div>
+  <div class="foot-meta">Konceptni prikaz z izmišljenimi podatki · v3: samo RATIO in DN</div>
+</footer>
+
+<div class="modal-wrap hidden" id="modal"><div class="modal" id="modal-box"></div></div>
+<div class="toasts" id="toasts"></div>
+
+<script src="js/lib/jquery-3.7.1.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/ratio.js"></script>
+<script src="js/planer-v3.js"></script>
+</body>
+</html>

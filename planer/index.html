@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planiranje · Delovni nalogi</title>
+<link rel="stylesheet" href="css/planer.css">
+</head>
+<body>
+
+<!-- ============ ZGORNJA VRSTICA ============ -->
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">DN</span>
+    <span class="brand-text">DELOVNI NALOGI</span>
+  </div>
+  <nav class="mainnav">
+    <a href="#" class="active">Planiranje</a>
+    <a href="#">Stroji</a>
+    <a href="#">Igle</a>
+    <a href="#">Klasifikacija</a>
+    <a href="#">Poročila</a>
+  </nav>
+  <div class="topbar-right">
+    <div class="clock"><span id="clock-time">--:--</span><span id="clock-shift">izmena</span></div>
+    <div class="user"><span class="user-role">PLANER</span><span class="user-name">J. Horvat</span></div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">PLAN</div>
+  <div class="hero-inner">
+    <div class="hero-title">
+      <div class="eyebrow">Oblikovanje notranjega ozobja · faza 1</div>
+      <h1>Plan<br>proizvodnje</h1>
+      <div class="hero-week" id="hero-week">Teden --</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-num" id="kpi-buffer">0</div><div class="kpi-lbl">Nerazporejeno</div><div class="kpi-sub" id="kpi-buffer-sub">&nbsp;</div></div>
+      <div class="kpi kpi-run"><div class="kpi-num" id="kpi-running">0</div><div class="kpi-lbl">V proizvodnji</div><div class="kpi-sub" id="kpi-running-sub">&nbsp;</div></div>
+      <div class="kpi"><div class="kpi-num" id="kpi-done">0</div><div class="kpi-lbl">Kosov narejenih</div><div class="kpi-sub">zadnjih 7 dni</div></div>
+      <div class="kpi"><div class="kpi-num" id="kpi-planned">0</div><div class="kpi-lbl">Kosov v planu</div><div class="kpi-sub">naslednjih 7 dni</div></div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- ============ 01 MEDPOMNILNIK + NOV NALOG ============ -->
+  <section class="block" id="sec-buffer">
+    <div class="block-head">
+      <span class="block-idx">01</span>
+      <h2>Medpomnilnik in nov nalog</h2>
+      <span class="block-hint">Povleci nalog iz medpomnilnika na časovnico</span>
+    </div>
+
+    <div class="grid-top">
+      <!-- medpomnilnik -->
+      <div class="panel panel-buffer">
+        <div class="panel-head">
+          <h3>Nerazporejeni</h3>
+          <span class="count" id="buffer-count">0</span>
+        </div>
+        <div class="buffer-tools">
+          <input type="search" id="buffer-search" placeholder="Išči nalog, ident, iglo…">
+        </div>
+        <ul class="buffer-list" id="buffer-list"></ul>
+        <div class="buffer-drop-hint">Spusti sem, da odstraniš s časovnice</div>
+      </div>
+
+      <!-- nov nalog -->
+      <div class="panel panel-form">
+        <div class="panel-head">
+          <h3>Nov delovni nalog</h3>
+          <span class="next-no">št. <b id="next-no">----</b></span>
+        </div>
+        <form id="order-form" autocomplete="off">
+          <div class="f-row">
+            <label class="f f-wide">
+              <span>Artikel (ident)</span>
+              <select id="f-article" required></select>
+            </label>
+          </div>
+          <div class="f-row">
+            <label class="f">
+              <span>Količina</span>
+              <select id="f-qty"></select>
+              <input type="number" id="f-qty-manual" min="1" step="1" placeholder="Vpiši količino" class="hidden">
+            </label>
+            <label class="f">
+              <span>Stroj <em>neobvezno</em></span>
+              <select id="f-machine"><option value="">— kasneje —</option></select>
+            </label>
+          </div>
+          <div class="f-row">
+            <label class="f f-wide">
+              <span>Primarna igla</span>
+              <select id="f-needle" required></select>
+              <small class="f-note" id="f-needle-range">&nbsp;</small>
+            </label>
+          </div>
+          <div class="f">
+            <span class="f-lbl">Alternativne igle <em>do 3</em></span>
+            <div class="alt-list" id="f-alts"></div>
+          </div>
+          <div class="f-row">
+            <div class="f">
+              <span class="f-lbl">Velikost palice</span>
+              <div class="seg" id="f-rod">
+                <button type="button" data-v="majhna">Majhna</button>
+                <button type="button" data-v="srednja">Srednja</button>
+                <button type="button" data-v="velika">Velika</button>
+              </div>
+            </div>
+            <div class="f">
+              <span class="f-lbl">Prioriteta</span>
+              <div class="seg seg-prio" id="f-prio">
+                <button type="button" data-v="normalna" class="on">Normalna</button>
+                <button type="button" data-v="visoka">Visoka</button>
+              </div>
+            </div>
+          </div>
+          <div class="f-row">
+            <label class="f">
+              <span>Šarža odkovkov <em>neobvezno</em></span>
+              <input type="text" id="f-batch" placeholder="—">
+            </label>
+            <label class="f">
+              <span>Peč <em>neobvezno</em></span>
+              <select id="f-furnace"><option value="">—</option></select>
+            </label>
+          </div>
+          <label class="f f-wide">
+            <span>Opombe</span>
+            <textarea id="f-notes" rows="2" placeholder="Navodila za proizvodnjo…"></textarea>
+          </label>
+          <div class="f-actions">
+            <button type="reset" class="btn btn-ghost">Počisti</button>
+            <button type="submit" class="btn btn-primary">Shrani nalog <span class="arrow">→</span></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- igle + detajl -->
+      <div class="col-right">
+        <div class="panel panel-needles">
+          <div class="panel-head">
+            <h3>Igle za artikel</h3>
+            <span class="count" id="needle-count">0</span>
+          </div>
+          <ul class="needle-list" id="needle-list"></ul>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 02 ČASOVNICA ============ -->
+  <section class="block" id="sec-timeline">
+    <div class="block-head">
+      <span class="block-idx">02</span>
+      <h2>Časovnica strojev</h2>
+      <span class="block-hint">3 stroji × 3 igle · 130 kos/h · preklop 30 min ustavi cel stroj</span>
+    </div>
+
+    <div class="tl-bar">
+      <div class="week-nav">
+        <button class="icon-btn" id="week-prev" title="Prejšnji teden">‹</button>
+        <div class="week-label" id="week-label">Teden --</div>
+        <button class="icon-btn" id="week-next" title="Naslednji teden">›</button>
+        <button class="btn btn-ghost btn-sm" id="week-today">Danes</button>
+      </div>
+      <div class="seg seg-dark" id="machine-filter"></div>
+      <div class="seg seg-dark" id="zoom">
+        <button type="button" data-v="8">Kompaktno</button>
+        <button type="button" data-v="14" class="on">Normalno</button>
+        <button type="button" data-v="26">Podrobno</button>
+      </div>
+      <div class="legend">
+        <span><i class="lg lg-planned"></i>Planiran</span>
+        <span><i class="lg lg-running"></i>V teku</span>
+        <span><i class="lg lg-done"></i>Končan</span>
+        <span><i class="lg lg-co"></i>Preklop</span>
+        <span><i class="lg lg-stop"></i>Postanek izmene</span>
+        <span><i class="lg lg-now"></i>Zdaj</span>
+      </div>
+    </div>
+
+    <div class="late-banner hidden" id="late-banner"></div>
+
+    <div class="tl" id="timeline"></div>
+    <div class="tl-foot">
+      <span>Osveževanje iz proizvodnje vsakih 30 s · zadnje: <b id="last-refresh">--</b></span>
+      <span>Povleci planiran nalog drugam ali nazaj v medpomnilnik. Če ga spustiš blizu konca prejšnjega, se postavi takoj za njim.</span>
+    </div>
+  </section>
+
+  <!-- ============ 03 TEDENSKI PREGLED ============ -->
+  <section class="block" id="sec-week">
+    <div class="block-head">
+      <span class="block-idx">03</span>
+      <h2>Tedenski pregled</h2>
+      <span class="block-hint" id="week-hint">Klik na vrstico označi nalog na časovnici</span>
+    </div>
+    <div id="week-groups"></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-word">DELOVNI NALOGI</div>
+  <div class="foot-meta">Konceptni prikaz z izmišljenimi podatki · MFG/PRO se samo bere</div>
+</footer>
+
+<!-- detajl naloga (predal desno) -->
+<aside class="drawer" id="detail" aria-label="Detajl naloga"></aside>
+
+<!-- modal + toast -->
+<div class="modal-wrap hidden" id="modal"><div class="modal" id="modal-box"></div></div>
+<div class="toasts" id="toasts"></div>
+
+<script src="js/lib/jquery-3.7.1.min.js"></script>
+<script src="js/lib/jquery-ui-1.14.1.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/planer.js"></script>
+</body>
+</html>

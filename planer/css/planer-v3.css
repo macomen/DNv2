@@ -1,0 +1,41 @@
+/* =========================================================
+   v3: samo RATIO in DN – dopolnilo k planer.css + planer-v2.css
+   ========================================================= */
+
+.strip {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  padding: 26px var(--gutter) 22px; color: #fff;
+  background:
+    radial-gradient(50% 160% at 95% 120%, rgba(255, 90, 31, .5), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 6px),
+    linear-gradient(180deg, #161616, #0d0d0d);
+}
+.strip h1 { margin: 0; font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: clamp(32px, 4vw, 54px); line-height: .95; text-transform: uppercase; }
+.strip .eyebrow { margin-bottom: 8px; }
+.strip-kpis { display: flex; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.18); }
+.skpi { padding: 12px 22px 0; border-left: 1px solid rgba(255,255,255,.18); min-width: 120px; }
+.skpi b { display: block; font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 32px; line-height: 1; }
+.skpi span { display: block; margin-top: 6px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #cfcbc4; font-weight: 700; }
+.skpi-warn b { color: var(--molten-2); }
+
+/* seznam DN */
+.dn-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 12px 14px; background: var(--ink); color: #fff; }
+.dn-bar .seg { border-color: #fff; }
+.dn-bar .seg button { background: transparent; color: #cfcbc4; border-right-color: rgba(255,255,255,.35); }
+.dn-bar .seg button.on { background: #fff; color: var(--ink); }
+.dn-bar input[type="search"] { padding: 8px 10px; min-width: 260px; border: 1px solid #fff; background: transparent; color: #fff; }
+.dn-bar input[type="search"]::placeholder { color: #9c9891; }
+.dn-only { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #cfcbc4; cursor: pointer; }
+.dn-only input { accent-color: var(--molten); }
+
+.dn-table tbody tr { cursor: pointer; }
+.dn-table td.act > div { display: flex; gap: 6px; justify-content: flex-end; }
+.dn-table .muted { color: var(--muted); font-size: 12px; }
+.dn-table tr.same-art td { background: #fff8f4; }
+.dn-table tr.same-art td:first-child { box-shadow: inset 5px 0 0 var(--molten); }
+.dn-table tr.is-cancelled td { color: var(--muted); text-decoration: line-through; background: #faf9f7; }
+.dn-table tr.is-cancelled td em { text-decoration: none; }
+.dn-table tr.dn-note td { padding-top: 0; font-size: 12px; color: var(--muted); border-top: 0; }
+.dn-table tr.dn-note { cursor: default; }
+.dn-table tr.flash-row td { animation: rowflash 1.6s ease-out; }
+@keyframes rowflash { 0% { background: rgba(255,90,31,.45); } 100% { background: transparent; } }
